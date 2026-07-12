@@ -1,0 +1,6 @@
+{
+  "name": "Student Profile",
+  "description": "A simple and elegant, minimal student profile page showcasing bio, skills, and contact details.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
