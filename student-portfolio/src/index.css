@@ -2,10 +2,7 @@
   font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #e2e8f0;
-  background:
-    radial-gradient(circle at top, rgba(14, 165, 233, 0.32), transparent 38%),
-    linear-gradient(180deg, #020617 0%, #0f172a 55%, #111827 100%);
+  /* Background and text color are now controlled by .theme-dark / .theme-light in App.css */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,6 +20,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  background: #020617; /* Fallback before JS hydrates theme class */
 }
 
 body,
@@ -41,7 +39,6 @@ p {
 
 h1,
 h2 {
-  color: #f8fafc;
   letter-spacing: -0.04em;
 }
 

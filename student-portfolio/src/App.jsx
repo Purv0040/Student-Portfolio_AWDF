@@ -1,24 +1,36 @@
-import Header from './components/Header.jsx'
-import About from './components/About.jsx'
-import Skills from './components/Skills.jsx'
+import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import NavBar from './components/NavBar.jsx'
 import Footer from './components/Footer.jsx'
+import Home from './pages/Home.jsx'
+import Projects from './pages/Projects.jsx'
+import Contact from './pages/Contact.jsx'
+import NotFound from './pages/NotFound.jsx'
 import './App.css'
 
-const studentName = 'Heer Ghevariya'
-const portfolioTitle = 'Student Portfolio'
-const aboutText =
-  'IT student at Charusat University, passionate about web development and software engineering. Skilled in React, JavaScript, HTML, CSS, C++, and Git. Eager to contribute to innovative projects and enhance technical expertise.'
-const skills = ['React', 'JavaScript', 'HTML', 'CSS', 'C++', 'Git']
 const contactEmail = '24it025@charusat.edu.in'
 
 function App() {
+  // useState for dark/light mode toggle (supplementary requirement)
+  const [darkMode, setDarkMode] = useState(true)
+
   return (
-    <main className="portfolio-shell">
-      <Header title={portfolioTitle} name={studentName} />
-      <About bio={aboutText} />
-      <Skills heading="Core Skills" items={skills} />
-      <Footer email={contactEmail} year={2026} />
-    </main>
+    <BrowserRouter>
+      {/* Apply theme class to root wrapper so every child inherits it */}
+      <div className={`app-shell ${darkMode ? 'theme-dark' : 'theme-light'}`}>
+        <NavBar darkMode={darkMode} onToggleTheme={() => setDarkMode(prev => !prev)} />
+        <main className="page-wrapper">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* 404 catch-all route (supplementary requirement) */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </main>
+        <Footer email={contactEmail} year={2026} />
+      </div>
+    </BrowserRouter>
   )
 }
 
