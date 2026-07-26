@@ -1,61 +1,52 @@
-:root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  /* Background and text color are now controlled by .theme-dark / .theme-light in App.css */
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Global base resets ── */
+@layer base {
+  html { min-height: 100%; }
+
+  body {
+    @apply m-0 min-h-screen font-sans antialiased;
+    /* Fallback background before React mounts the theme class */
+    background-color: #020617;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  h1, h2, p { margin: 0; }
+
+  h1, h2 {
+    @apply tracking-tight;
+    letter-spacing: -0.04em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.8rem);
+    line-height: 0.95;
+  }
+
+  h2 { @apply text-2xl mb-3; }
+
+  button, input, textarea, select { font: inherit; }
+
+  #root { @apply min-h-screen; }
 }
 
-* {
-  box-sizing: border-box;
-}
+/* ── Custom spin animation (can't be done purely in utilities) ── */
+@layer utilities {
+  @keyframes spin-ring {
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin-ring {
+    animation: spin-ring 0.85s linear infinite;
+  }
 
-html {
-  min-height: 100%;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #020617; /* Fallback before JS hydrates theme class */
-}
-
-body,
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-h1,
-h2,
-p {
-  margin: 0;
-}
-
-h1,
-h2 {
-  letter-spacing: -0.04em;
-}
-
-h1 {
-  font-size: clamp(2.5rem, 6vw, 4.8rem);
-  line-height: 0.95;
-}
-
-h2 {
-  margin-bottom: 12px;
-  font-size: 1.4rem;
-}
-
-a {
-  color: inherit;
-}
-
-#root {
-  min-height: 100vh;
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.3s ease both;
+  }
 }
