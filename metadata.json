@@ -1,0 +1,6 @@
+{
+  "name": "Student Portfolio",
+  "description": "An interactive, elegant, and highly polished student portfolio page built with React, Vite, and Tailwind CSS.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
