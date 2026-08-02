@@ -17,6 +17,191 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+#practical-4-page {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 30%),
+    radial-gradient(circle at top right, rgba(249, 115, 22, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 252, 0.98));
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.08);
+}
+
+#practical-4-page h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 0.75rem;
+  color: #0f172a;
+}
+
+#practical-4-page h2,
+#practical-4-page h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+#practical-4-page > p:first-of-type {
+  max-width: 72ch;
+  color: #475569;
+  font-size: 1.02rem;
+}
+
+#practical-4-page hr {
+  border: 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  margin: 1.6rem 0;
+}
+
+#practical-4-page form {
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.05);
+}
+
+#practical-4-page label {
+  display: inline-block;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.35rem;
+}
+
+#practical-4-page input,
+#practical-4-page textarea,
+#practical-4-page select {
+  width: min(100%, 100%);
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0f172a;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+#practical-4-page textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+#practical-4-page input:focus,
+#practical-4-page textarea:focus,
+#practical-4-page select:focus,
+#practical-4-page button:focus-visible {
+  outline: none;
+  border-color: #0f766e;
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.14);
+}
+
+#practical-4-page button {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.78rem 1.15rem;
+  background: linear-gradient(135deg, #0f766e, #115e59);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(15, 118, 110, 0.18);
+}
+
+#practical-4-page button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(15, 118, 110, 0.22);
+}
+
+#practical-4-page button:active {
+  transform: translateY(0);
+}
+
+#practical-4-page table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+#practical-4-page thead th {
+  background: #0f172a;
+  color: #f8fafc;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+#practical-4-page th,
+#practical-4-page td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+  vertical-align: top;
+}
+
+#practical-4-page tbody tr:nth-child(even) {
+  background: rgba(248, 250, 252, 0.9);
+}
+
+#practical-4-page pre {
+  overflow: auto;
+  padding: 1rem;
+  border-radius: 16px;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+}
+
+#practical-4-page table button,
+#practical-4-page table select {
+  width: auto;
+}
+
+#practical-4-page table button,
+#practical-4-page [type="submit"] {
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+}
+
+#practical-4-page [type="button"] {
+  background: linear-gradient(135deg, #475569, #334155);
+}
+
+#practical-4-page table button:hover,
+#practical-4-page [type="button"]:hover,
+#practical-4-page [type="submit"]:hover {
+  filter: brightness(1.04);
+}
+
+@media (max-width: 768px) {
+  #practical-4-page {
+    padding: 1rem;
+    border-radius: 20px;
+  }
+
+  #practical-4-page table,
+  #practical-4-page thead,
+  #practical-4-page tbody,
+  #practical-4-page tr,
+  #practical-4-page th,
+  #practical-4-page td {
+    font-size: 0.95rem;
+  }
+
+  #practical-4-page th,
+  #practical-4-page td {
+    padding: 0.75rem 0.8rem;
+  }
+}
+
 /* Custom interactive transitions */
 a, button, input, textarea, select {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
