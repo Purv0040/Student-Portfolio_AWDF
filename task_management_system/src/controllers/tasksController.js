@@ -1,43 +1,102 @@
-import {
-  createTaskRecord,
-  deleteTaskRecord,
-  tasks,
-  updateTaskRecord,
-} from '../data/tasks.js';
+import mongoose from 'mongoose';
+import Task from '../models/task.js';
 
-export const getAllTasks = (_req, res) => {
-  res.status(200).json(tasks);
+const createNotFoundError = (message) => {
+  const error = new Error(message);
+  error.statusCode = 404;
+  return error;
 };
 
-export const createTask = (req, res) => {
-  const task = createTaskRecord(req.body ?? {});
-  res.status(201).json(task);
+const createInvalidIdError = (id) => {
+  const error = new Error(`Task with id ${id} is invalid`);
+  error.statusCode = 400;
+  return error;
 };
 
-export const updateTask = (req, res, next) => {
-  const taskId = Number(req.params.id);
-  const updatedTask = updateTaskRecord(taskId, req.body ?? {});
-
-  if (!updatedTask) {
-    const error = new Error(`Task with id ${taskId} not found`);
-    error.statusCode = 404;
+export const getAllTasks = async (_req, res, next) => {
+  try {
+    const tasks = await Task.find().sort({ createdAt: -1 });
+    res.status(200).json(tasks);
+  } catch (error) {
     next(error);
+  }
+};
+
+export const getTaskById = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    next(createInvalidIdError(id));
     return;
   }
 
-  res.status(200).json(updatedTask);
+  try {
+    const task = await Task.findById(id);
+
+    if (!task) {
+      next(createNotFoundError(`Task with id ${id} not found`));
+      return;
+    }
+
+    res.status(200).json(task);
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const removeTask = (req, res, next) => {
-  const taskId = Number(req.params.id);
-  const deletedTask = deleteTaskRecord(taskId);
-
-  if (!deletedTask) {
-    const error = new Error(`Task with id ${taskId} not found`);
-    error.statusCode = 404;
+export const createTask = async (req, res, next) => {
+  try {
+    const task = await Task.create(req.body ?? {});
+    res.status(201).json(task);
+  } catch (error) {
     next(error);
+  }
+};
+
+export const updateTask = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    next(createInvalidIdError(id));
     return;
   }
 
-  res.status(200).json(deletedTask);
+  try {
+    const updatedTask = await Task.findByIdAndUpdate(id, req.body ?? {}, {
+      new: true,
+      runValidators: true,
+      context: 'query',
+    });
+
+    if (!updatedTask) {
+      next(createNotFoundError(`Task with id ${id} not found`));
+      return;
+    }
+
+    res.status(200).json(updatedTask);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const removeTask = async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    next(createInvalidIdError(id));
+    return;
+  }
+
+  try {
+    const deletedTask = await Task.findByIdAndDelete(id);
+
+    if (!deletedTask) {
+      next(createNotFoundError(`Task with id ${id} not found`));
+      return;
+    }
+
+    res.status(200).json(deletedTask);
+  } catch (error) {
+    next(error);
+  }
 };
