@@ -14,6 +14,7 @@ const formatValidationErrors = (error) =>
 export const errorHandler = (err, _req, res, _next) => {
   console.error('[Error Handler]:', err);
 
+  // Mongoose validation error
   if (err.name === 'ValidationError') {
     res.status(400).json({
       message: 'Validation failed',
@@ -22,6 +23,7 @@ export const errorHandler = (err, _req, res, _next) => {
     return;
   }
 
+  // Mongoose cast error
   if (err.name === 'CastError') {
     res.status(400).json({
       message: 'Invalid resource identifier',
@@ -32,6 +34,30 @@ export const errorHandler = (err, _req, res, _next) => {
           kind: err.kind,
         },
       ],
+    });
+    return;
+  }
+
+  // JWT errors
+  if (err.name === 'JsonWebTokenError') {
+    res.status(401).json({
+      message: 'Invalid token. Please log in again.',
+    });
+    return;
+  }
+
+  if (err.name === 'TokenExpiredError') {
+    res.status(401).json({
+      message: 'Token expired. Please log in again.',
+    });
+    return;
+  }
+
+  // MongoDB duplicate key error (e.g., duplicate email)
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyPattern || {})[0] || 'field';
+    res.status(409).json({
+      message: `Duplicate value for ${field}. This ${field} is already in use.`,
     });
     return;
   }

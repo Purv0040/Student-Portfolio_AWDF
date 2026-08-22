@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { getTasks } from './api';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import LoginPage from './components/LoginPage';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
-import { FiAlertCircle } from 'react-icons/fi';
+import { FiAlertCircle, FiLogOut, FiUser } from 'react-icons/fi';
 
-function App() {
+function TaskApp() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { user, logout, isAuthenticated, loading: authLoading } = useAuth();
+
   useEffect(() => {
-    fetchTasks();
-  }, []);
+    if (isAuthenticated) {
+      fetchTasks();
+    }
+  }, [isAuthenticated]);
 
   const fetchTasks = async () => {
     try {
@@ -20,7 +26,7 @@ function App() {
       setTasks(data);
       setError(null);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to fetch tasks from the server. Is the backend running?');
+      setError(err.response?.data?.message || 'Failed to fetch tasks from the server. Is the backend running?');
     } finally {
       setLoading(false);
     }
@@ -37,10 +43,35 @@ function App() {
   const handleTaskDelete = (deletedId) => {
     setTasks(tasks.filter(t => t._id !== deletedId));
   };
+ 
+  if (authLoading) {
+    return (
+      <div className="container">
+        <div className="glass-panel center-content">
+          <span className="loading-spinner" style={{ width: '3rem', height: '3rem', borderWidth: '4px' }}></span>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
 
   return (
     <div className="container">
-      <h1>Task Manager</h1>
+      <div className="app-header">
+        <h1>Task Manager</h1>
+        <div className="user-info">
+          <span className="user-badge">
+            <FiUser /> {user?.name || user?.email}
+          </span>
+          <button className="btn-logout" onClick={logout} title="Logout">
+            <FiLogOut /> Logout
+          </button>
+        </div>
+      </div>
       
       {error && (
         <div className="error-message glass-panel" style={{ padding: '1rem', marginBottom: '2rem' }}>
@@ -65,6 +96,14 @@ function App() {
         />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <TaskApp />
+    </AuthProvider>
   );
 }
 

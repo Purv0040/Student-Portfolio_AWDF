@@ -13,9 +13,9 @@ const createInvalidIdError = (id) => {
   return error;
 };
 
-export const getAllTasks = async (_req, res, next) => {
+export const getAllTasks = async (req, res, next) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 });
+    const tasks = await Task.find({ user: req.user.id }).sort({ createdAt: -1 });
     res.status(200).json(tasks);
   } catch (error) {
     next(error);
@@ -31,7 +31,7 @@ export const getTaskById = async (req, res, next) => {
   }
 
   try {
-    const task = await Task.findById(id);
+    const task = await Task.findOne({ _id: id, user: req.user.id });
 
     if (!task) {
       next(createNotFoundError(`Task with id ${id} not found`));
@@ -46,7 +46,11 @@ export const getTaskById = async (req, res, next) => {
 
 export const createTask = async (req, res, next) => {
   try {
-    const task = await Task.create(req.body ?? {});
+    const taskData = {
+      ...(req.body ?? {}),
+      user: req.user.id,
+    };
+    const task = await Task.create(taskData);
     res.status(201).json(task);
   } catch (error) {
     next(error);
@@ -62,11 +66,15 @@ export const updateTask = async (req, res, next) => {
   }
 
   try {
-    const updatedTask = await Task.findByIdAndUpdate(id, req.body ?? {}, {
-      new: true,
-      runValidators: true,
-      context: 'query',
-    });
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: id, user: req.user.id },
+      req.body ?? {},
+      {
+        new: true,
+        runValidators: true,
+        context: 'query',
+      }
+    );
 
     if (!updatedTask) {
       next(createNotFoundError(`Task with id ${id} not found`));
@@ -88,7 +96,7 @@ export const removeTask = async (req, res, next) => {
   }
 
   try {
-    const deletedTask = await Task.findByIdAndDelete(id);
+    const deletedTask = await Task.findOneAndDelete({ _id: id, user: req.user.id });
 
     if (!deletedTask) {
       next(createNotFoundError(`Task with id ${id} not found`));
