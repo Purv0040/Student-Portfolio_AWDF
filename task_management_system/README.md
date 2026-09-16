@@ -137,3 +137,28 @@ Sample response:
 - `POST /tasks`
 - `PUT /tasks/:id`
 - `DELETE /tasks/:id`
+
+---
+
+## Frontend & Practical 8: Performance Optimization & Code Splitting
+
+The React frontend (`task_management_system_frontend`) implements route-level and component-level code splitting using `React.lazy()` and `<Suspense>`:
+
+- **Route Lazy Loading**: `/` (Home Tasks), `/analytics` (Analytics), and `/contact` (Contact) are downloaded strictly on demand.
+- **Component-Level Lazy Loading**: The heavy `chart.js` visualizer is isolated into its own `TaskAnalyticsChart` chunk (~167 kB), avoiding unneeded downloads for non-analytics users.
+- **Suspense Fallback UI**: Beautiful glassmorphic fallback with skeleton pulse and loading spinner.
+- **Anti-Flicker Threshold**: Integrated `lazyWithDelay` preventing loading flashes on fast connections.
+- **Error Boundary**: Chunk loading failure handling with retry option.
+
+### Running Frontend
+```bash
+cd task_management_system_frontend
+npm install
+npm run dev
+```
+
+### Production Build
+```bash
+npm run build
+```
+See [PRACTICAL-8.md](file:///d:/Learning/AWF/task_management_system/PRACTICAL-8.md) for full metrics, diagrams, and evaluation rubrics.

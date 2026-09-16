@@ -16,17 +16,10 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
  
-// Response interceptor — handle 401 (expired/invalid token)
+// Response interceptor
 API.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.reload();
-    }
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Auth endpoints
