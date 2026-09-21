@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { getTasks } from './api';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { lazyWithDelay } from './utils/lazyWithDelay';
+
+// Static Shell & Eager Route Components
+import Navbar from './components/Navbar';
 import LoginPage from './components/LoginPage';
-import TaskForm from './components/TaskForm';
-import TaskList from './components/TaskList';
-import { FiAlertCircle, FiLogOut, FiUser } from 'react-icons/fi';
+import LoadingFallback from './components/LoadingFallback';
+import ErrorBoundary from './components/ErrorBoundary';
+import Contact from './pages/Contact';
+
+// Practical 8: Route-based Code Splitting applied ONLY to Tasks and Analytics
+const Home = lazyWithDelay(() => import('./pages/Home'), 200);
+const Analytics = lazyWithDelay(() => import('./pages/Analytics'), 200);
 
 function TaskApp() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const { user, logout, isAuthenticated, loading: authLoading } = useAuth();
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -49,7 +58,7 @@ function TaskApp() {
       <div className="container">
         <div className="glass-panel center-content">
           <span className="loading-spinner" style={{ width: '3rem', height: '3rem', borderWidth: '4px' }}></span>
-          <p>Loading...</p>
+          <p style={{ marginTop: '1rem', color: 'var(--text-muted)' }}>Authenticating...</p>
         </div>
       </div>
     );
@@ -61,40 +70,31 @@ function TaskApp() {
 
   return (
     <div className="container">
-      <div className="app-header">
-        <h1>Task Manager</h1>
-        <div className="user-info">
-          <span className="user-badge">
-            <FiUser /> {user?.name || user?.email}
-          </span>
-          <button className="btn-logout" onClick={logout} title="Logout">
-            <FiLogOut /> Logout
-          </button>
-        </div>
-      </div>
-      
-      {error && (
-        <div className="error-message glass-panel" style={{ padding: '1rem', marginBottom: '2rem' }}>
-          <FiAlertCircle size={24} />
-          <span>{error}</span>
-          <button onClick={fetchTasks} style={{ marginLeft: 'auto', padding: '0.5rem 1rem' }}>Retry</button>
-        </div>
-      )}
+      <Navbar />
 
-      <TaskForm onTaskAdded={handleTaskAdded} />
-      
-      {loading ? (
-        <div className="glass-panel center-content">
-          <span className="loading-spinner" style={{ width: '3rem', height: '3rem', borderWidth: '4px' }}></span>
-          <p>Loading tasks...</p>
-        </div>
-      ) : (
-        <TaskList 
-          tasks={tasks} 
-          onTaskUpdate={handleTaskUpdate}
-          onTaskDelete={handleTaskDelete}
-        />
-      )}
+      <ErrorBoundary>
+        <Suspense fallback={<LoadingFallback message="Loading page route chunk..." />}>
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <Home 
+                  tasks={tasks}
+                  loading={loading}
+                  error={error}
+                  onTaskAdded={handleTaskAdded}
+                  onTaskUpdate={handleTaskUpdate}
+                  onTaskDelete={handleTaskDelete}
+                  onRetry={fetchTasks}
+                />
+              } 
+            />
+            <Route path="/analytics" element={<Analytics tasks={tasks} />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 }
