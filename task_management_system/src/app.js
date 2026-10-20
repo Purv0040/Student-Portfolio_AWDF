@@ -11,6 +11,10 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
+app.get('/health', (_req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
 // Auth routes (public)
 app.use('/api', authRouter);
 

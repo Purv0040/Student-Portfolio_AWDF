@@ -10,7 +10,7 @@ const startServer = async () => {
   try {
     await mongoose.connect(MONGODB_URI);
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`Task Management API running on port ${PORT}`);
     });
   } catch (error) {
