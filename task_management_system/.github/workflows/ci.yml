@@ -1,0 +1,42 @@
+name: CI — Task Management API
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Trigger: run on every push to the main branch
+# ─────────────────────────────────────────────────────────────────────────────
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build & Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]   # test against two LTS versions
+
+    steps:
+      # ── 1. Check out the repository ────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── 2. Set up the requested Node.js version ───────────────────────────
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'               # cache node_modules between runs
+
+      # ── 3. Install dependencies ────────────────────────────────────────────
+      - name: Install dependencies (npm install)
+        run: npm install
+
+      # ── 4. Run the automated test suite ───────────────────────────────────
+      - name: Run tests (npm test)
+        run: npm test
+
