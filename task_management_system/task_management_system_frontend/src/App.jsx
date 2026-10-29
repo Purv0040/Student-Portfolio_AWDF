@@ -10,6 +10,7 @@ import LoginPage from './components/LoginPage';
 import LoadingFallback from './components/LoadingFallback';
 import ErrorBoundary from './components/ErrorBoundary';
 import Contact from './pages/Contact';
+import AIChatWidget from './components/AIChatWidget';
 
 // Practical 8: Route-based Code Splitting applied ONLY to Tasks and Analytics
 const Home = lazyWithDelay(() => import('./pages/Home'), 200);
@@ -95,6 +96,9 @@ function TaskApp() {
           </Routes>
         </Suspense>
       </ErrorBoundary>
+
+      {/* AI Chat Widget — floating bubble, visible on all pages */}
+      <AIChatWidget />
     </div>
   );
 }
