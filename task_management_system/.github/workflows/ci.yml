@@ -1,8 +1,5 @@
 name: CI — Task Management API
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Trigger: run on every push to the main branch
-# ─────────────────────────────────────────────────────────────────────────────
 on:
   push:
     branches:
@@ -18,19 +15,25 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x, 22.x]   # test against two LTS versions
+        node-version: [20.x, 22.x]
+
+    # Set the working directory for ALL run steps
+    defaults:
+      run:
+        working-directory: task_management_system
 
     steps:
       # ── 1. Check out the repository ────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Set up the requested Node.js version ───────────────────────────
+      # ── 2. Set up Node.js — point cache to the subfolder's lock file ───────
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'               # cache node_modules between runs
+          cache: 'npm'
+          cache-dependency-path: task_management_system/package-lock.json
 
       # ── 3. Install dependencies ────────────────────────────────────────────
       - name: Install dependencies (npm install)
@@ -39,4 +42,3 @@ jobs:
       # ── 4. Run the automated test suite ───────────────────────────────────
       - name: Run tests (npm test)
         run: npm test
-
