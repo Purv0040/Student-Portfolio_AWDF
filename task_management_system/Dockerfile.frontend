@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────
+#  Frontend – Nginx static server
+#  Serves the static HTML/CSS/JS from src/public and proxies
+#  all /api/* requests to the backend container.
+# ─────────────────────────────────────────────────────────────
+FROM nginx:1.27-alpine
+
+# Remove the default nginx welcome page
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy only the static public assets
+COPY src/public/ /usr/share/nginx/html/
+
+# Copy custom nginx site config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD wget -qO- http://localhost/health || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
