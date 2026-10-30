@@ -67,7 +67,7 @@ function Contact() {
           {/* Name + Email row */}
           <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
             {[
-              { id: 'contact-name',  name: 'name',  type: 'text',  placeholder: 'Heer Ghevariya', label: 'Name' },
+              { id: 'contact-name',  name: 'name',  type: 'text',  placeholder: 'Purv Ughareje', label: 'Name' },
               { id: 'contact-email', name: 'email', type: 'email', placeholder: 'hello@example.com', label: 'Email' },
             ].map(f => (
               <div key={f.name} className="flex flex-col gap-1.5">
@@ -134,10 +134,10 @@ function Contact() {
         {/* ── Alt contact ── */}
         <div className="mt-7 pt-6 border-t border-slate-700/30 text-sm text-slate-500">
           <p className="m-0 mb-1">Or reach me directly at:</p>
-          <a href="mailto:24it025@charusat.edu.in"
+          <a href="mailto:24it100@charusat.edu.in"
             className="text-sky-300 font-medium no-underline hover:underline"
           >
-            24it025@charusat.edu.in
+            24it100@charusat.edu.in
           </a>
         </div>
       </section>

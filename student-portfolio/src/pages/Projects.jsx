@@ -3,7 +3,7 @@ import Spinner from '../components/Spinner.jsx'
 import ErrorMessage from '../components/ErrorMessage.jsx'
 import RepoList from '../components/RepoList.jsx'
 
-const GITHUB_USER = 'HeerGhevariya'
+const GITHUB_USER = 'Purv0040'
 const API_URL = `https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=30`
 
 const panel = 'rounded-3xl border border-slate-700/30 bg-[rgba(15,23,42,0.78)] backdrop-blur-lg shadow-2xl'

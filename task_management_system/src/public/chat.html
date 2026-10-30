@@ -465,6 +465,7 @@
   </div><!-- /chat-panel -->
 
   <script>
+    const API_BASE = (window.location.protocol === 'file:' || !window.location.port) ? 'http://localhost:5000' : '';
     // ── State ──────────────────────────────────────────────────────────
     let token     = localStorage.getItem('aichat_token') || null;
     let history   = [];   // { role, content }[]
@@ -519,7 +520,7 @@
       btn.textContent = 'Signing in…';
 
       try {
-        const res  = await fetch('/api/login', {
+        const res  = await fetch(`${API_BASE}/api/login`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password: pass }),
@@ -618,7 +619,7 @@
       const typingId = addTyping();
 
       try {
-        const res = await fetch('/api/ai/chat', {
+        const res = await fetch(`${API_BASE}/api/ai/chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ function NavBar({ darkMode, onToggleTheme }) {
       <span className={`text-xl font-bold tracking-tight select-none
         ${darkMode ? 'text-sky-300' : 'text-sky-600'}`}
       >
-        HG.
+        PU.
       </span>
 
       {/* Hamburger (mobile) */}

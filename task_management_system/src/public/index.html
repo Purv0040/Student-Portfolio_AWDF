@@ -464,7 +464,7 @@
 
 <script>
   /* ─── State ─── */
-  const API = '/api';
+  const API = (window.location.protocol === 'file:' || !window.location.port) ? 'http://localhost:5000/api' : '/api';
   let token = localStorage.getItem('tm_token') || null;
   let userName = localStorage.getItem('tm_user') || '';
   let allTasks = [];
@@ -512,7 +512,7 @@
       localStorage.setItem('tm_user', userName);
       showApp();
     } catch (err) {
-      toast(err.message, 'error');
+      toast(err.message === 'Failed to fetch' ? 'Cannot reach server. Make sure the backend is running on port 5000.' : err.message, 'error');
     } finally {
       btn.disabled = false; btn.textContent = 'Sign In';
     }
@@ -541,7 +541,7 @@
       toast('Account created! Welcome 🎉', 'success');
       showApp();
     } catch (err) {
-      toast(err.message, 'error');
+      toast(err.message === 'Failed to fetch' ? 'Cannot reach server. Make sure the backend is running on port 5000.' : err.message, 'error');
     } finally {
       btn.disabled = false; btn.textContent = 'Create Account';
     }
@@ -714,7 +714,7 @@
       closeModal();
       toast(editingId ? 'Task updated ✓' : 'Task added ✓', 'success');
     } catch (err) {
-      toast(err.message, 'error');
+      toast(err.message === 'Failed to fetch' ? 'Cannot reach server. Make sure the backend is running on port 5000.' : err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.textContent = editingId ? 'Update Task' : 'Save Task';

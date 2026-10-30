@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Skills from '../components/Skills.jsx'
 
 const aboutText =
-  'IT student at Charusat University, passionate about web development and software engineering. Skilled in React, JavaScript, HTML, CSS, C++, and Git. Eager to contribute to innovative projects and enhance technical expertise.'
+  'I am a passionate and enthusiastic B.Tech Information Technology student at Charusat University, currently in my 3rd year. I have a strong interest in software development, full-stack web development, AI, and emerging technologies. Apart from academics, I am passionate about entrepreneurship, exploring new business opportunities, travelling, and automobiles.'
 
-const skills = ['React', 'JavaScript', 'HTML', 'CSS', 'C++', 'Git']
+const skills = ['React', 'JavaScript', 'TypeScript', 'HTML', 'CSS', 'Git']
 
 // Reusable glass panel class string
 const panel = 'rounded-3xl border border-slate-700/30 bg-[rgba(15,23,42,0.78)] backdrop-blur-lg shadow-2xl'
@@ -19,13 +19,13 @@ function Home() {
       {/* ── Hero panel ── */}
       <header className={`${panel} p-10 grid gap-3`}>
         <p className="m-0 text-sky-300 text-xs uppercase tracking-[0.2em] font-semibold">
-          Student Portfolio
+          B.Tech IT Student & Full-Stack Developer
         </p>
         <h1 className="text-slate-50" style={{ fontSize: 'clamp(2.5rem,6vw,4.8rem)', lineHeight: 0.95 }}>
-          Heer Ghevariya
+          Purv Ughareje
         </h1>
         <p className="m-0 text-slate-400 text-lg leading-relaxed max-w-[62ch]">
-          A compact profile page that highlights background, skills, and contact details.
+          Passionate B.Tech IT student, developer, and tech enthusiast exploring modern web engineering, AI, and innovative business opportunities.
         </p>
       </header>
 

@@ -7,7 +7,7 @@ import Projects from './pages/Projects.jsx'
 import Contact from './pages/Contact.jsx'
 import NotFound from './pages/NotFound.jsx'
 
-const contactEmail = '24it025@charusat.edu.in'
+const contactEmail = '24it100@charusat.edu.in'
 
 function App() {
   // useState for dark/light mode toggle
